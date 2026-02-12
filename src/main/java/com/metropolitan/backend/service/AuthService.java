@@ -6,10 +6,12 @@ import com.metropolitan.backend.dto.RegisterRequest;
 import com.metropolitan.backend.model.AdminUser;
 import com.metropolitan.backend.repository.AdminUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,13 +21,16 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-    private static final int MAX_ADMIN_COUNT = 2;
+    @Value("${admin.allowed.email-domains}")
+    private List<String> allowedEmailDomains;
 
     public AuthResponse register(RegisterRequest request) {
-        // Check if already 2 admins exist
-        long adminCount = adminUserRepository.count();
-        if (adminCount >= MAX_ADMIN_COUNT) {
-            throw new RuntimeException("Maximum number of admin users (2) reached. Registration not allowed.");
+        // Check if email domain is allowed
+        String email = request.getEmail().toLowerCase();
+        boolean domainAllowed = allowedEmailDomains.stream()
+                .anyMatch(domain -> email.endsWith(domain.trim().toLowerCase()));
+        if (!domainAllowed) {
+            throw new RuntimeException("Email domain not allowed. Allowed domains: " + String.join(", ", allowedEmailDomains));
         }
 
         // Check if email already exists
