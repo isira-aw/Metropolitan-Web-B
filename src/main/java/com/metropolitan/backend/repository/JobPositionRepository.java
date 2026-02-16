@@ -18,6 +18,8 @@ public interface JobPositionRepository extends JpaRepository<JobPosition, Long> 
     long countByCategory(String category);
 
     List<JobPosition> findByStatus(String status);
+    Page<JobPosition> findByStatus(String status, Pageable pageable);
+    long countByStatus(String status);
 
     @Query("SELECT j FROM JobPosition j WHERE " +
             "(:#{#category == null} = true OR j.category = :category) AND " +
