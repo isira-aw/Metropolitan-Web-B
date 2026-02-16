@@ -40,6 +40,9 @@ public class JobApplication {
     @Column(name = "cover_letter", columnDefinition = "TEXT")
     private String coverLetter;
 
+    @Column(name = "resume_pdf", columnDefinition = "TEXT")
+    private String resumePdf;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

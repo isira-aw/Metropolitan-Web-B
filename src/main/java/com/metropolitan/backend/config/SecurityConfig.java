@@ -42,6 +42,7 @@ public class SecurityConfig {
                                 "/api/case-studies/**",
                                 "/api/news/**",
                                 "/api/testimonials/**",
+                                "/api/job-positions/**",
                                 "/api/inquiries",
                                 "/api/careers/apply"
                         ).permitAll()
