@@ -39,6 +39,13 @@ public class JobPositionService {
         return jobPositionRepository.findByStatus("Active");
     }
 
+    public PageResponse<JobPosition> getActiveJobPositionsPaginated(int page, int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<JobPosition> jobPositionPage = jobPositionRepository.findByStatus("Active", pageable);
+        long total = jobPositionRepository.countByStatus("Active");
+        return PageResponse.of(jobPositionPage.getContent(), total, page, limit);
+    }
+
     public Optional<JobPosition> getJobPosition(Long id) {
         return jobPositionRepository.findById(id);
     }

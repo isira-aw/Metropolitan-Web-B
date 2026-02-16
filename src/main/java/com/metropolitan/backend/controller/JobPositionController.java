@@ -1,6 +1,7 @@
 package com.metropolitan.backend.controller;
 
 import com.metropolitan.backend.dto.ErrorResponse;
+import com.metropolitan.backend.dto.PageResponse;
 import com.metropolitan.backend.model.JobPosition;
 import com.metropolitan.backend.service.JobPositionService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,14 @@ public class JobPositionController {
     private final JobPositionService jobPositionService;
 
     @GetMapping
-    public ResponseEntity<List<JobPosition>> getActiveJobPositions() {
+    public ResponseEntity<?> getActiveJobPositions(
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer limit
+    ) {
+        if (page != null && limit != null) {
+            PageResponse<JobPosition> response = jobPositionService.getActiveJobPositionsPaginated(page, limit);
+            return ResponseEntity.ok(response);
+        }
         List<JobPosition> positions = jobPositionService.getActiveJobPositions();
         return ResponseEntity.ok(positions);
     }
