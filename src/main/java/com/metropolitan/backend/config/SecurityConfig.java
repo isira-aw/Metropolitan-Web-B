@@ -44,7 +44,8 @@ public class SecurityConfig {
                                 "/api/testimonials/**",
                                 "/api/job-positions/**",
                                 "/api/inquiries",
-                                "/api/careers/apply"
+                                "/api/careers/apply",
+                                "/api/chatbot/**"
                         ).permitAll()
                         // Admin auth endpoints - no authentication required
                         .requestMatchers("/api/admin/auth/**").permitAll()
