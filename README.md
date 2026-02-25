@@ -26,7 +26,6 @@ DB_USERNAME=postgres
 DB_PASSWORD=postgres
 ```
 
-## Build and Run
 
 ### Using Maven
 
